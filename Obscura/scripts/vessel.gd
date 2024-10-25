@@ -1,12 +1,12 @@
 class_name Vessel
 extends CharacterBody3D
 
-@export var terrforming_power:float = 1.0
-@export var terrain_manager:TerrainManager
+@export var terrforming_power: float = 1.0
+@export var terrain_manager: TerrainManager
 
-const RADIUS:float = 0.5
-const HEIGHT:float = RADIUS * 2.0
-const WIDTH:float = RADIUS * 2.0
+const RADIUS: float = 0.5
+const HEIGHT: float = RADIUS * 2.0
+const WIDTH: float = RADIUS * 2.0
 
 const BASE_SPEED = 50
 const HYPER_SPEED = 300
@@ -46,6 +46,6 @@ func _physics_process(_delta):
 
 	move_and_slide()
 
-func _play(player:AudioStreamPlayer2D) -> void:
+func _play(player: AudioStreamPlayer2D) -> void:
 	if !player.playing:
 		player.play()

@@ -1,8 +1,8 @@
 extends Node
 
-@export var cameras:Array[CameraControllerBase]
+@export var cameras: Array[CameraControllerBase]
 
-var current_controller:int = 0
+var current_controller: int = 0
 
 
 func _ready():
@@ -34,6 +34,3 @@ func _process(_delta):
 					current_controller = index
 					cameras[current_controller].make_current()
 					
-			
-		
-	

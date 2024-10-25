@@ -2,12 +2,12 @@ class_name CameraControllerBase
 extends Camera3D
 
 
-@export var target:Vessel
-@export var dist_above_target:float = 10.0
-@export var zoom_speed:float = 10.0
-@export var min_zoom:float = 5.0
-@export var max_zoom:float = 100.0
-@export var draw_camera_logic:bool = false
+@export var target: Vessel
+@export var dist_above_target: float = 10.0
+@export var zoom_speed: float = 10.0
+@export var min_zoom: float = 5.0
+@export var max_zoom: float = 100.0
+@export var draw_camera_logic: bool = false
 
 #camera tilt around the z axis in radians
 #var _camera_tilt_rad:float = 0.0
@@ -40,7 +40,6 @@ func _process(delta: float) -> void:
 		#rotation.z = _camera_tilt_rad
 		
 	position.y = target.position.y + dist_above_target
-
 
 
 func draw_logic() -> void:

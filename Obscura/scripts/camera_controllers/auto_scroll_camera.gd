@@ -1,9 +1,10 @@
-class_name PushBox
+class_name AutoScrollCamera
 extends CameraControllerBase
 
 
-@export var box_width: float = 10.0
-@export var box_height: float = 10.0
+@export var top_left: Vector2
+@export var bottom_right: Vector2
+@export var autoscroll_speed: Vector3
 
 
 func _ready() -> void:
