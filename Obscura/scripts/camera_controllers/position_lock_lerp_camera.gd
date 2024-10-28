@@ -1,5 +1,10 @@
-class_name PositionLockCamera
+class_name PositionLockLerpCamera
 extends CameraControllerBase
+
+
+@export var follow_speed: float = 35.0
+@export var catchup_speed: float = 70.0
+@export var leash_distance: float = 40.0
 
 
 func _ready() -> void:
@@ -9,12 +14,27 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if !current:
+		position = target.position
 		return
 	
 	if draw_camera_logic:
 		draw_logic()
-		
-	global_position = target.global_position
+	
+	var tpos_xz: Vector3 = Vector3(target.global_position.x, 0, target.global_position.z)
+	var tspeed: float = target.speed
+	var cpos_xz: Vector3 = Vector3(global_position.x, 0, global_position.z)
+	
+	var target_distance: float = tpos_xz.distance_to(cpos_xz)
+	var target_unmoving: bool = is_zero_approx(target.velocity.x) and is_zero_approx(target.velocity.z)
+	
+	if target_distance <= 1 and target_unmoving:
+		position = target.position
+	elif target_unmoving:
+		_follow_target(tpos_xz, cpos_xz, catchup_speed, delta)
+	elif target_distance >= leash_distance:
+		_follow_target(tpos_xz, cpos_xz, tspeed, delta)
+	else:
+		_follow_target(tpos_xz, cpos_xz, follow_speed, delta)
 		
 	super(delta)
 
@@ -53,3 +73,10 @@ func draw_logic() -> void:
 	#mesh is freed after one update of _process
 	await get_tree().process_frame
 	mesh_instance.queue_free()
+
+
+func _follow_target(tpos: Vector3, cpos: Vector3, speed: float, delta: float) -> void:
+	var direction = (tpos - cpos).normalized()
+	
+	if direction:
+		global_position = global_position + direction * speed * delta
