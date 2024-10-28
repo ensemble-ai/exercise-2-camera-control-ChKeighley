@@ -4,13 +4,18 @@ extends CameraControllerBase
 
 @export var lead_speed: float = 70.0
 @export var catchup_speed: float = 40.0
-@export var catchup_delay_duration: float = 2.0
+@export var catchup_delay_duration: float = 0.3
 @export var leash_distance: float = 20.0
+
+var timer_started: bool = false
+
+@onready var timer: Timer = %Timer
 
 
 func _ready() -> void:
 	super()
 	position = target.position
+	timer.set_wait_time(catchup_delay_duration)
 	
 
 func _process(delta: float) -> void:
@@ -31,11 +36,15 @@ func _process(delta: float) -> void:
 	if target_distance <= 1 and target_unmoving:
 		position = target.position
 	elif target_unmoving:
-		_follow_target(tpos_xz, cpos_xz, catchup_speed, delta)
+		if timer.is_stopped() and timer_started:
+			_follow_target(tpos_xz, cpos_xz, catchup_speed, delta)
+		elif timer_started == false:
+			timer_started = true
+			timer.start()
 	elif target_distance >= leash_distance:
-		_lead_target(target.velocity, tspeed, delta)
+		_lead_target(tpos_xz, cpos_xz, tspeed, delta)
 	else:
-		_lead_target(target.velocity, lead_speed, delta)
+		_lead_target(tpos_xz, cpos_xz, lead_speed, delta)
 		
 	super(delta)
 
@@ -83,8 +92,12 @@ func _follow_target(tpos: Vector3, cpos: Vector3, speed: float, delta: float) ->
 		global_position = global_position + direction * speed * delta
 
 
-func _lead_target(target_velocity: Vector3, speed: float, delta: float) -> void:
-	var direction = (target.velocity).normalized()
-		
+func _lead_target(tpos: Vector3, cpos: Vector3, speed: float, delta: float) -> void:
+	var camera_direction: Vector3 = cpos - tpos
+	var direction = (target.velocity - camera_direction).normalized()
+	
+	timer.stop()
+	timer_started = false
+	
 	if direction:
 		global_position = global_position + direction * speed * delta
