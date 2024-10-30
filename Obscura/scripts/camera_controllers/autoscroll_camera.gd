@@ -4,7 +4,7 @@ extends CameraControllerBase
 
 @export var top_left: Vector2 = Vector2(-15, -10)
 @export var bottom_right: Vector2 = Vector2(15, 10)
-@export var autoscroll_speed: Vector3 = Vector3(30, 0, 0)
+@export var autoscroll_speed: Vector3 = Vector3(20, 0, 0)
 
 var box_width: float
 var box_height: float
@@ -28,8 +28,7 @@ func _process(delta: float) -> void:
 	var current_fps = Engine.get_frames_per_second()
 	var tpos = target.global_position
 	var cpos = global_position
-	
-	
+
 	global_position.x += autoscroll_speed.x / current_fps
 	global_position.z += autoscroll_speed.z / current_fps
 	

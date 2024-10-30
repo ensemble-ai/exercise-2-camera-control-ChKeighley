@@ -89,6 +89,7 @@ func draw_logic() -> void:
 	mesh_instance.mesh = immediate_mesh
 	mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	
+	# Outer pushbox draw
 	var left: float = -pushbox_width / 2
 	var right: float = pushbox_width / 2
 	var top: float = -pushbox_height / 2
@@ -108,7 +109,7 @@ func draw_logic() -> void:
 	immediate_mesh.surface_add_vertex(Vector3(right, 0, top))
 	immediate_mesh.surface_end()
 	
-	# Show speedup zone box
+	# Speedup zone box draw
 	left = -speedup_width / 2
 	right = speedup_width / 2
 	top = -speedup_height / 2
@@ -127,7 +128,6 @@ func draw_logic() -> void:
 	immediate_mesh.surface_add_vertex(Vector3(left, 0, top))
 	immediate_mesh.surface_add_vertex(Vector3(right, 0, top))
 	immediate_mesh.surface_end()
-	# End speedup zone box
 
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.albedo_color = Color.BLACK
@@ -144,10 +144,10 @@ func draw_logic() -> void:
 func _speedup_in_direction(dir: Direction, speed: float, delta: float) -> void:
 	match dir:
 		Direction.LEFT:
-			global_position.x = global_position.x + -1 * abs(speed) * delta
+			global_position.x = global_position.x + speed * delta
 		Direction.RIGHT:
-			global_position.x = global_position.x + 1 * abs(speed) * delta
+			global_position.x = global_position.x + speed * delta
 		Direction.TOP:
-			global_position.z = global_position.z + -1 * abs(speed) * delta
+			global_position.z = global_position.z + speed * delta
 		Direction.BOTTOM:
-			global_position.z = global_position.z + 1 * abs(speed) * delta
+			global_position.z = global_position.z + speed * delta

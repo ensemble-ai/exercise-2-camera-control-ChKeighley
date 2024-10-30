@@ -33,9 +33,11 @@ func _process(delta: float) -> void:
 	var target_distance: float = tpos_xz.distance_to(cpos_xz)
 	var target_unmoving: bool = is_zero_approx(target.velocity.x) and is_zero_approx(target.velocity.z)
 	
+	# Lock on target, catchup target, lead target at target speed, or lead target at lead speed
 	if target_distance <= 1 and target_unmoving:
 		position = target.position
 	elif target_unmoving:
+		# Move toward target after catchup delay duration
 		if timer.is_stopped() and timer_started:
 			_follow_target(tpos_xz, cpos_xz, catchup_speed, delta)
 		elif timer_started == false:
