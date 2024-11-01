@@ -1,3 +1,16 @@
+# IMPORTANT INFO
+
+The cameras that controller will cycle through are:
+
+* Push box (starting camera, just 1 now instead of 3)
+* STAGE 1: position lock (position_lock_camera.gd)
+* STAGE 2: autoscroll (autoscroll_camera.gd)
+* STAGE 3: position lock lerp (position_lock_lerp_camera.gd)
+* STAGE 4: position lock lerp leading (position_lock_lerp_leading_camera.gd)
+* STAGE 5: four way speedup push box (four_way_speedup_push_box.gd)
+
+I added drawing the inner speedup zone for stage 5, but everything else is pretty basic. Thanks for your review!
+
 # Camera Control Exercise
 
 ## Description

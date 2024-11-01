@@ -34,11 +34,9 @@ func _process(delta: float) -> void:
 	
 	#boundary checks
 	#left
-	#var diff_between_left_edges = (tpos.x - target.WIDTH / 2.0) - (cpos.x - box_width / 2.0)
-	var target_left_edge = tpos.x - (target.WIDTH / 2.0)
-	var camera_left_edge = cpos.x - (box_width / 2.0)
-	if target_left_edge < camera_left_edge:
-		target.global_position.x += camera_left_edge - target_left_edge
+	var diff_between_left_edges = (cpos.x - box_width / 2.0) - (tpos.x - target.WIDTH / 2.0)
+	if diff_between_left_edges > 0:
+		target.global_position.x += diff_between_left_edges
 	#right
 	var diff_between_right_edges = (tpos.x - target.WIDTH / 2.0) - (cpos.x + box_width / 2.0)
 	if diff_between_right_edges > 0:
